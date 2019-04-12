@@ -1,11 +1,26 @@
 {
-  "name": "Node-Express4-Session",
-  "version": "0.0.1",
+  "name": "node-session",
+  "version": "1.0.0",
+  "description": "node-session ============ Handle Session in express JS 4.0 above. Code is latest and updated.",
   "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeforgeek/node-session.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codeforgeek/node-session/issues"
+  },
+  "homepage": "https://github.com/codeforgeek/node-session#readme",
   "dependencies": {
-    "body-parser": "^1.7.0",
-    "ejs": "^1.0.0",
-    "express": "^4.8.7",
-    "express-session": "^1.7.6"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "express-session": "^1.16.1"
   }
 }

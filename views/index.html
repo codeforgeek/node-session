@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Session Management in NodeJS using Express4.2</title>
+<title>Session Management in NodeJS using Node and Express</title>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
 <script>
 $(document).ready(function(){
@@ -11,9 +11,8 @@ $(document).ready(function(){
 		/*
 		* Perform some validation here.
 		*/
-		$.post("http://localhost:3000/login",{email:email,pass:pass},function(data){		
-			if(data==='done')			
-			{
+		$.post("/login",{email:email,pass:pass},function(data){
+			if(data==='done') {
 				window.location.href="/admin";
 			}
 		});

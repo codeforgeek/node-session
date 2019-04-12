@@ -1,67 +1,59 @@
 /*
  * Manage Session in Node.js and ExpressJS
  * Author : Shahid Shaikh
- * Version : 0.0.1
+ * Version : 0.0.2
 */
-var express		=	require('express');
-var session		=	require('express-session');
-var bodyParser  	= 	require('body-parser');
-var app			=	express();
-
-app.set('views', __dirname + '/views');
-app.engine('html', require('ejs').renderFile);
+const express = require('express');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const router = express.Router();
+const app =	express();
 
 app.use(session({secret: 'ssshhhhh',saveUninitialized: true,resave: true}));
 app.use(bodyParser.json());      
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static(__dirname + '/views'));
 
-var sess;
+var sess; // global session, NOT recommended
 
-app.get('/',function(req,res){
-	sess=req.session;
-	if(sess.email)
-	{
-		res.redirect('/admin');
+router.get('/',(req,res) => {
+	sess = req.session;
+	if(sess.email) {
+		return res.redirect('/admin');
 	}
-	else{
-	res.render('index.html');
-	}
+	res.sendFile('index.html');
 });
 
-app.post('/login',function(req,res){
-	sess=req.session;	
-	sess.email=req.body.email;
+router.post('/login',(req,res) => {
+	sess = req.session;
+	sess.email = req.body.email;
 	res.end('done');
 });
 
-app.get('/admin',function(req,res){
-	sess=req.session;
-	if(sess.email)	
-	{
-		res.write('<h1>Hello '+sess.email+'</h1><br>');
+router.get('/admin',(req,res) => {
+	sess = req.session;
+	if(sess.email) {
+		res.write(`<h1>Hello ${sess.email} </h1><br>`);
 		res.end('<a href='+'/logout'+'>Logout</a>');
 	}
-	else
-	{
+	else {
 		res.write('<h1>Please login first.</h1>');
 		res.end('<a href='+'/'+'>Login</a>');
 	}
-
 });
 
-app.get('/logout',function(req,res){
-	
-	req.session.destroy(function(err){
-		if(err){
-			console.log(err);
+router.get('/logout',(req,res) => {
+	req.session.destroy((err) => {
+		if(err) {
+			return console.log(err);
 		}
-		else
-		{
-			res.redirect('/');
-		}
+		res.redirect('/');
 	});
 
 });
-app.listen(3000,function(){
-	console.log("App Started on PORT 3000");
+
+app.use('/', router);
+
+app.listen(process.env.PORT || 3000,() => {
+	console.log(`App Started on PORT ${process.env.PORT || 3000}`);
 });
